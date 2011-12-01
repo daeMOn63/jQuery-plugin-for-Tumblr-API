@@ -20,7 +20,6 @@
     }
 
     $.fn.getTumblrPosts.obj = function (target, APIKey, options) {
-
         var blog = target,
             settings = $.extend({}, $.fn.getTumblrPosts.defaults, options),
             ppPage = settings.postsPerPage,
@@ -29,30 +28,26 @@
         blog.html("");
 
         $.ajax({
-
             url: APIKey + "&limit=" + ppPage + "&offset=" + (currentPage - 1) * ppPage,
             dataType: "jsonp",
             jsonp: "&jsonp",
             beforeSend: function () {
-                blog.html(settings.loading);
-
+                blog.html(settings.loading);	// While Loading...
             },
-
             success: function (data) {
                 blog.html("");
 
                 /*** FORMAT TIMESTAMP ***/
                 formatedPostDate = function (timestamp) {
-
                     var jsDate = new Date(timestamp * 1000),
                         month = jsDate.getMonth(),
                         day = jsDate.getDay(),
                         hours = convertedHours(),
                         minutes = convertedMinutes(),
-                        year = jsDate.getFullYear();
+                        year = jsDate.getFullYear(),
+						postTime; // Will be used to store formatted time.
 
                     function convertedHours() {
-
                         var military = jsDate.getHours();
 
                         if (military > 12) {
@@ -67,11 +62,9 @@
                             hour: standard,
                             period: period
                         };
-
                     }
 
                     function convertedMinutes() {
-
                         var jsMin = jsDate.getMinutes();
 
                         if (jsMin < 10) {
@@ -81,10 +74,9 @@
                         }
 
                         return min;
-
                     }
 
-                    var postTime = month + "\/" + day + "&nbsp;" + year + "&nbsp;" + hours.hour + ":" + minutes + hours.period;
+                    postTime = month + "\/" + day + "&nbsp;" + year + "&nbsp;" + hours.hour + ":" + minutes + hours.period;
 
                     return postTime;
 
@@ -99,9 +91,8 @@
 
                     switch (postType) {
 
-                        /*** AUDIO POST ***/
+                    /*** AUDIO POST ***/
                     case "audio":
-
                         var audioTitle = 'AUDIO: ' + this.artist + ' - ' + this.track_name,
                             imgSRC = this.album_art ? '<img src="' + this.album_art + '"/>' : " ",
                             audioSRC = this.player,
@@ -113,9 +104,8 @@
 
                         break; /*** END AUDIO POST***/
 
-                        /*** TEXT POST ***/
+                    /*** TEXT POST ***/
                     case "text":
-
                         var title = this.title,
                             textBody = this.body;
 
@@ -125,9 +115,8 @@
 
                         break; /*** END TEXT POST***/
 
-                        /*** PHOTO POST ***/
+                    /*** PHOTO POST ***/
                     case "photo":
-
                         var photoText = this.caption,
                             photos = this.photos,
                             photoContainer = $('<div class="tumblr-photos" />');
@@ -170,9 +159,8 @@
 
                         break; /*** END PHOTO POST***/
 
-                        /*** QUOTE POST ***/
+                    /*** QUOTE POST ***/
                     case "quote":
-
                         var quote = this.text,
                             author = this.source;
 
@@ -182,9 +170,8 @@
 
                         break; /*** END QUOTE POST***/
 
-                        /*** VIDEO POST ***/
+                    /*** VIDEO POST ***/
                     case "video":
-
                         var caption = this.caption,
                             embeddedVideo = this.player[2].embed_code;
 
@@ -200,11 +187,9 @@
 
                 /*** PAGINATION ***/
                 if (settings.pagination === true) {
-
                     var paginationContainer = $("<div class='blog-pagination clearfix'></div>");
 
                     if (Math.ceil(data.response.total_posts / ppPage) != currentPage) {
-
                         var nextBtn = $("<div class='blog-next-btn'>" + settings.nextBtn + "</div>").css({
                             "cursor": "pointer"
                         });
@@ -214,7 +199,6 @@
                     }
 
                     if (currentPage !== 1) {
-
                         var prevBtn = $("<div class='blog-prev-btn'>" + settings.previousBtn + "</div>").css({
                             "cursor": "pointer"
                         });
@@ -256,9 +240,7 @@
                 blog.append("<h2>ERRRRRRRR!</h2>", "<p>There was an error loading Tumblr, LAME!</p>");
 
             }
-
         });
-
     }
 
 })(jQuery);
