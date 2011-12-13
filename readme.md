@@ -34,10 +34,6 @@ All individual posts' containers have the class 'post' plus a post-type specific
 
 	Posts' converted timestamps are in <p class="post-date"> elements.
 
-------
-
-------
-
 ###Text posts
 	
 A typical text post will be marked up something like:
@@ -49,11 +45,7 @@ A typical text post will be marked up something like:
 		<a href="http://atumblrblog.tumblr.com">Go to tumblr post...</a>
 	</div>
 
-------
-
-------
-
-###Photo posts - 
+###Photo posts
 	
 Photos that are in posts with > 1 photo get the class 'multi-photo' on their containing element.
 This allows for different styling, sizing etc via CSS between single and multiple photo posts.
