@@ -129,7 +129,7 @@ $.fn.getTumblrPosts.obj = {
                     // Check for photo size options. Prevents really large original images from being called.
                     if (photos[i].alt_sizes[0].width >= 500) {
                         var n = 0;
-                        for (n = 0; n < photos[i].alt_sizes.length; n++) {
+                        for ( ; n < photos[i].alt_sizes.length; n++) {
                             if (photos[i].alt_sizes[n].width === 500) {
                                 var photoSizeURL = photos[i].alt_sizes[n].url;
                             }
