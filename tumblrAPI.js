@@ -98,7 +98,14 @@
                             audioSRC = this.player,
                             audioCaption = this.caption;
 
-                        thisPost.addClass('audio-post').append('<h2>' + audioTitle + '</h2>', '<p class="post-date">' + postDate + '</p>', imgSRC, audioSRC, audioCaption, '<a href="' + linkURL + '">Go to tumblr post...</a>');
+                        thisPost.addClass('audio-post').append(
+							'<h2>' + audioTitle + '</h2>', 
+							'<p class="post-date">' + postDate + '</p>', 
+							imgSRC, 
+							audioSRC, 
+							audioCaption, 
+							'<a href="' + linkURL + '">Go to tumblr post...</a>'
+						);
 
                         blog.append(thisPost);
 
@@ -109,7 +116,12 @@
                         var title = this.title,
                             textBody = this.body;
 
-                        thisPost.addClass('text-post').append('<h2>' + title + '</h2>', '<p class="post-date">' + postDate + '</p>', textBody, '<a href="' + linkURL + '">Go to tumblr post...</a>');
+                        thisPost.addClass('text-post').append(
+							'<h2>' + title + '</h2>', 
+							'<p class="post-date">' + postDate + '</p>', 
+							textBody, 
+							'<a href="' + linkURL + '">Go to tumblr post...</a>'
+						);
 
                         blog.append(thisPost);
 
@@ -148,12 +160,19 @@
                                 var caption = "";
                             }
 
-                            figure.append('<a href="' + photos[i].original_size.url + '" target="_blank" title="' + photos[i].caption + '"><img src="' + photoSizeURL + '"/></a>', caption);
+                            figure.append(
+								'<a href="' + photos[i].original_size.url + '" target="_blank" title="' + photos[i].caption + '"><img src="' + photoSizeURL + '"/></a>', 
+								caption
+							);
 
                             photoContainer.append(figure);
                         }
 
-                        thisPost.addClass('photo-post').append('<p class="post-date">' + postDate + '</p>', photoContainer, photoText, '<a href="' + linkURL + '">Go to tumblr post...</a>');
+                        thisPost.addClass('photo-post').append(
+							'<p class="post-date">' + postDate + '</p>', 
+							photoContainer, 
+							photoText, '<a href="' + linkURL + '">Go to tumblr post...</a>'
+						);
 
                         blog.append(thisPost);
 
@@ -164,7 +183,12 @@
                         var quote = this.text,
                             author = this.source;
 
-                        thisPost.addClass('quote-post').append('<p class="post-date">' + postDate + '</p>', '<q class="quote-text">' + quote + '</q>', '<p class="quote-author"> &#8212; ' + author + '</p>', '<a href="' + linkURL + '">Go to tumblr post...</a>');
+                        thisPost.addClass('quote-post').append(
+							'<p class="post-date">' + postDate + '</p>', 
+							'<q class="quote-text">' + quote + '</q>', '
+							<p class="quote-author"> &#8212; ' + author + '</p>', 
+							'<a href="' + linkURL + '">Go to tumblr post...</a>'
+						);
 
                         blog.append(thisPost);
 
@@ -175,7 +199,12 @@
                         var caption = this.caption,
                             embeddedVideo = this.player[2].embed_code;
 
-                        thisPost.addClass('video-post').append('<p class="post-date">' + postDate + '</p>', embeddedVideo, caption, '<a href="' + linkURL + '">Go to tumblr post...</a>');
+                        thisPost.addClass('video-post').append(
+							'<p class="post-date">' + postDate + '</p>', 
+							embeddedVideo, 
+							caption, 
+							'<a href="' + linkURL + '">Go to tumblr post...</a>'
+						);
 
                         blog.append(thisPost);
 
