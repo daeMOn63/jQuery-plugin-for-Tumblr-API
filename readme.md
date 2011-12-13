@@ -10,11 +10,11 @@ Style the mark-up noted below however you wish.
 
 Current configuration options:
 
-postsPerPage - int = fairly self explainatory.  return
-pagination - boolean = turns on/off pagination functionality and UI for pagination.  return
-currentPage - int = indicates which page will be displayed first.  return
-loading - HTML as string = accepts any HTML to be displayed while the request is loading via AJAX.  return
-previousBtn / nextBtn - string = inner HTML for next and prev buttons created for paging if pagination is enabled.  return
+postsPerPage - int = fairly self explainatory.<br>
+pagination - boolean = turns on/off pagination functionality and UI for pagination.<br>
+currentPage - int = indicates which page will be displayed first.<br>
+loading - HTML as string = accepts any HTML to be displayed while the request is loading via AJAX.<br>
+previousBtn / nextBtn - string = inner HTML for next and prev buttons created for paging if pagination is enabled.
 
 More configuration options will probably be available soon, as well as a more modular design.
 
