@@ -20,8 +20,6 @@ More configuration options will probably be available soon, as well as a more mo
 
 The end.
 
-------
-
 ##Mark-up
 
 This plugin creates A LOT of mark-up for the developer, 

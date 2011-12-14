@@ -1,8 +1,8 @@
-/************************************************
- ************TUMBLR API jQUERY PLUGIN************
- **************IAN.AINLEY@GMAIL.COM**************
- ***************PLEASE REED README***************
- ************************************************/
+/*
+jQuery plugin for read-only Tumblr API implementation.
+For more info on the Tumblr API, please visit http://www.tumblr.com/docs/en/api/v2
+2011 ian.ainley (@ gmail)
+*/
 
 ;(function ($) {
 
@@ -17,11 +17,10 @@ $.fn.getTumblrPosts.defaults = {
     loading: "<p>Loading...</p>",
     previousBtn: "&laquo; Prev",
     nextBtn: "Next &raquo;",
-    error: "<h2>ERRRRRRRR!</h2><p>There was an error loading Tumblr, LAME!</p>"
+    error: "<h2>Error!</h2><p>There was an error accessing the Tumblr API, LAME!</p>"
 }
 
 $.fn.getTumblrPosts.obj = {
-
     /*** FORMAT TIMESTAMP ***/
     formatedPostDate : function (timestamp) {
         var jsDate = new Date(timestamp * 1000),
@@ -30,7 +29,7 @@ $.fn.getTumblrPosts.obj = {
             hours = convertedHours(),
             minutes = convertedMinutes(),
             year = jsDate.getFullYear(),
-            postTime; // Will be used to store formatted time.
+            postTime; // Used to store formatted time.
 
         function convertedHours() {
             var military = jsDate.getHours();
@@ -42,7 +41,6 @@ $.fn.getTumblrPosts.obj = {
                 var standard = military,
                     period = "AM";
             }
-
             return {
                 hour: standard,
                 period: period
@@ -57,14 +55,10 @@ $.fn.getTumblrPosts.obj = {
             } else {
                 var min = jsMin;
             }
-
             return min;
         }
-
         postTime = month + "\/" + day + "&nbsp;" + year + "&nbsp;" + hours.hour + ":" + minutes + hours.period;
-
         return postTime;
-
     }, /*** END TIMESTAMP ***/
 
     /*** POSTS ***/
@@ -95,9 +89,7 @@ $.fn.getTumblrPosts.obj = {
                                 audioCaption, 
                                 '<a href="' + linkURL + '">Go to tumblr post...</a>'
                             );
-
                 blog.append(thisPost);
-
                 break; /*** END AUDIO POST***/
 
             /*** TEXT POST ***/
@@ -112,9 +104,7 @@ $.fn.getTumblrPosts.obj = {
                                 textBody, 
                                 '<a href="' + linkURL + '">Go to tumblr post...</a>'
                             );
-
                 blog.append(thisPost);
-
                 break; /*** END TEXT POST***/
 
             /*** PHOTO POST ***/
@@ -125,7 +115,6 @@ $.fn.getTumblrPosts.obj = {
 
                 for (i = 0; i < photos.length; i++) {
                     var figure = $('<figure />');
-
                     // Check for photo size options. Prevents really large original images from being called.
                     if (photos[i].alt_sizes[0].width >= 500) {
                         var n = 0;
@@ -134,36 +123,28 @@ $.fn.getTumblrPosts.obj = {
                                 var photoSizeURL = photos[i].alt_sizes[n].url;
                             }
                         }
-
                     } else {
                         var photoSizeURL = photos[i].original_size.url;
                     }
-
                     if (photos.length > 1) {
                         photoContainer.addClass("multi-photo");
                     }
-
                     if (photos[i].caption != "") {
                         var caption = $('<figcaption />');
                         caption.append(photos[i].caption);
                     } else {
                         var caption = "";
                     }
-
                     figure.append('<a href="' + photos[i].original_size.url + '" target="_blank" title="' + photos[i].caption + '"><img src="' + photoSizeURL + '"/></a>', caption);
-
                     photoContainer.append(figure);
                 }
-
                 thisPost.addClass('photo-post')
                         .append(
                                 '<p class="post-date">' + postDate + '</p>', 
                                 photoContainer, photoText, 
                                 '<a href="' + linkURL + '">Go to tumblr post...</a>'
                             );
-
                 blog.append(thisPost);
-
                 break; /*** END PHOTO POST***/
 
             /*** QUOTE POST ***/
@@ -172,9 +153,7 @@ $.fn.getTumblrPosts.obj = {
                     author = this.source;
 
                 thisPost.addClass('quote-post').append('<p class="post-date">' + postDate + '</p>', '<q class="quote-text">' + quote + '</q>', '<p class="quote-author"> &#8212; ' + author + '</p>', '<a href="' + linkURL + '">Go to tumblr post...</a>');
-
                 blog.append(thisPost);
-
                 break; /*** END QUOTE POST***/
 
             /*** VIDEO POST ***/
@@ -189,18 +168,12 @@ $.fn.getTumblrPosts.obj = {
                                 caption, 
                                 '<a href="' + linkURL + '">Go to tumblr post...</a>'
                             );
-
                 blog.append(thisPost);
-
                 break; /*** END VIDEO POST ***/
-
             }
-
         });
-
     }, /*** END POSTS ***/
-
-} /*** END METHODS ***/
+} /*** END OBJ ***/
 
 $.fn.getTumblrPosts.init = function (target, APIKey, options) {
     var blog = target,
@@ -230,41 +203,32 @@ $.fn.getTumblrPosts.init = function (target, APIKey, options) {
                        var nextBtn = $("<div class='blog-next-btn'>" + settings.nextBtn + "</div>").css({
                            "cursor": "pointer"
                        });
-
                        paginationContainer.append(nextBtn);
                    }
-
                    if (currentPage !== 1) {
                        var prevBtn = $("<div class='blog-prev-btn'>" + settings.previousBtn + "</div>").css({
                            "cursor": "pointer"
                        });
-
                        paginationContainer.append(prevBtn);
                    }
 
                    function bindPagination() {
-
                        $(".blog-next-btn").click(function () {
-
                            $.fn.getTumblrPosts.defaults.currentPage++;
                            blog.getTumblrPosts(APIKey, options);
                        });
-
                        $(".blog-prev-btn").click(function () {
-
                            $.fn.getTumblrPosts.defaults.currentPage--;
                            blog.getTumblrPosts(APIKey, options);
                        });
                 }
-
                 blog.append(paginationContainer);
                 bindPagination();
-            } /***  END PAGINATION ***/
-            
+            } /***  END PAGINATION ***/  
+               
         },/*** END SUCCESS ***/ 
 
         error: function () {
-
             blog.append(settings.error);
         }
     });
