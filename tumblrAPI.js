@@ -8,7 +8,7 @@ For more info on the Tumblr API, please visit http://www.tumblr.com/docs/en/api/
 
 $.fn.getTumblrPosts = function (APIKey, options) {
     return $.fn.getTumblrPosts.init(this, APIKey, options);
-}
+};
 
 $.fn.getTumblrPosts.defaults = {
     postsPerPage: 3,
@@ -18,13 +18,13 @@ $.fn.getTumblrPosts.defaults = {
     previousBtn: "&laquo; Prev",
     nextBtn: "Next &raquo;",
     error: "<h2>Error!</h2><p>There was an error accessing the Tumblr API, LAME!</p>"
-}
+};
 
 $.fn.getTumblrPosts.obj = {
     /*** FORMAT TIMESTAMP ***/
     formatedPostDate : function (timestamp) {
         var jsDate = new Date(timestamp * 1000),
-            month = jsDate.getMonth(),
+            month = jsDate.getMonth() + 1,
             day = jsDate.getDay(),
             hours = convertedHours(),
             minutes = convertedMinutes(),
@@ -173,65 +173,76 @@ $.fn.getTumblrPosts.obj = {
             }
         });
     }, /*** END POSTS ***/
-} /*** END OBJ ***/
+
+    /***  PAGINATION ***/
+    createPagination : function (target, APIKey, options, settings, data, ppPage, currentPage) {
+        var s = this; 
+        
+        if (settings.pagination === true) {
+            var paginationContainer = $("<div class='blog-pagination clearfix'></div>");
+
+               if (Math.ceil(data.response.total_posts / ppPage) !== currentPage) {
+                   var nextBtn = $("<div class='blog-next-btn'>" + settings.nextBtn + "</div>").css({
+                       "cursor": "pointer"
+                   });
+                   paginationContainer.append(nextBtn);
+               }
+               if (currentPage !== 1) {
+                   var prevBtn = $("<div class='blog-prev-btn'>" + settings.previousBtn + "</div>").css({
+                       "cursor": "pointer"
+                   });
+                   paginationContainer.append(prevBtn);
+               }
+
+            target.append(paginationContainer);
+            s.bindPagination(target, APIKey, options, settings);
+        }  
+    },
+
+    bindPagination : function (target, APIKey, options, settings) {
+       $(".blog-next-btn").click(function () {
+           $.fn.getTumblrPosts.defaults.currentPage++;
+           target.getTumblrPosts(APIKey, options);
+       });
+       $(".blog-prev-btn").click(function () {
+           $.fn.getTumblrPosts.defaults.currentPage--;
+           target.getTumblrPosts(APIKey, options);
+       });
+    },  /***  END PAGINATION ***/
+
+    getPosts : function (target, APIKey, options, settings) {
+        var s = this, ppPage = settings.postsPerPage, currentPage = settings.currentPage;
+
+        $.ajax({
+                url: APIKey + "&limit=" + ppPage + "&offset=" + (currentPage - 1) * ppPage,
+                dataType: "jsonp",
+                jsonp: "&jsonp",
+                beforeSend: function () {
+                    target.html(settings.loading);    // While Loading...
+                },
+                success: function (data) {
+
+                    target.html("");
+                    s.formatPosts(target, data);
+                    s.createPagination(target, APIKey, options, settings, data, ppPage, currentPage);               
+                       
+                },/*** END SUCCESS ***/ 
+
+                error: function () {
+                    target.append(settings.error);
+                }
+            });        
+        
+    }
+}; /*** END OBJ ***/
 
 $.fn.getTumblrPosts.init = function (target, APIKey, options) {
-    var blog = target,
-        settings = $.extend({}, $.fn.getTumblrPosts.defaults, options),
-        ppPage = settings.postsPerPage,
-        currentPage = settings.currentPage;
+    var settings = $.extend({}, $.fn.getTumblrPosts.defaults, options);
 
-    blog.html("");
+    target.html("");
 
-    $.ajax({
-        url: APIKey + "&limit=" + ppPage + "&offset=" + (currentPage - 1) * ppPage,
-        dataType: "jsonp",
-        jsonp: "&jsonp",
-        beforeSend: function () {
-            blog.html(settings.loading);    // While Loading...
-        },
-        success: function (data) {
-            blog.html("");
-
-            $.fn.getTumblrPosts.obj.formatPosts(blog, data);
-            
-            /***  PAGINATION ***/
-            if (settings.pagination === true) {
-                var paginationContainer = $("<div class='blog-pagination clearfix'></div>");
-
-                   if (Math.ceil(data.response.total_posts / ppPage) != currentPage) {
-                       var nextBtn = $("<div class='blog-next-btn'>" + settings.nextBtn + "</div>").css({
-                           "cursor": "pointer"
-                       });
-                       paginationContainer.append(nextBtn);
-                   }
-                   if (currentPage !== 1) {
-                       var prevBtn = $("<div class='blog-prev-btn'>" + settings.previousBtn + "</div>").css({
-                           "cursor": "pointer"
-                       });
-                       paginationContainer.append(prevBtn);
-                   }
-
-                   function bindPagination() {
-                       $(".blog-next-btn").click(function () {
-                           $.fn.getTumblrPosts.defaults.currentPage++;
-                           blog.getTumblrPosts(APIKey, options);
-                       });
-                       $(".blog-prev-btn").click(function () {
-                           $.fn.getTumblrPosts.defaults.currentPage--;
-                           blog.getTumblrPosts(APIKey, options);
-                       });
-                }
-                blog.append(paginationContainer);
-                bindPagination();
-            } /***  END PAGINATION ***/  
-               
-        },/*** END SUCCESS ***/ 
-
-        error: function () {
-            blog.append(settings.error);
-        }
-    });
-}
+    $.fn.getTumblrPosts.obj.getPosts(target, APIKey, options, settings);
+    
+};
 
 })(jQuery);
