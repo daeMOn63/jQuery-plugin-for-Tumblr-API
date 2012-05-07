@@ -2,7 +2,7 @@
 
 ##Usage:
  
-	$( "target jQuery object" ).getTumblrPosts( "your tumblr API key" );
+	$( "target jQuery object" ).embedTumblr( "your tumblr API key url" );
 
 For information on the Tumblr API and/or to get your tumblr's API key, visit http://www.tumblr.com/docs/en/api/v2.
 
@@ -16,7 +16,7 @@ currentPage - int = indicates which page will be displayed first.<br>
 loading - HTML as string = accepts any HTML to be displayed while the request is loading via AJAX.<br>
 previousBtn / nextBtn - string = inner HTML for next and prev buttons created for paging if pagination is enabled.
 
-More configuration options will probably be available soon, as well as a more modular design.
+More configuration options will probably be available soon.
 
 The end.
 
@@ -71,4 +71,3 @@ A typical photo post will marked up as follows:
 ------
 	
 Now that you have an idea of the mark-up, it should be relatively easy to decipher the other post types :)
-Firebug can uncover any other secrets for you.
