@@ -1,8 +1,17 @@
 #Tumblr API jQuery Plugin
 
+##Requires:
+
+jQuery 1.7 or later.
+A tumblr account with an API key (http://www.tumblr.com/docs/en/api/v2).
+
 ##Usage:
  
-	$( "target jQuery object" ).embedTumblr( "your tumblr API key url" );
+	$( "target container to embed tumblr in" ).embedTumblr( "your tumblr API key url" );
+
+If your blog is at myblog.tumblr.com and your API key is abc123, the format of "your tumblr API key url" would be something like:
+
+	http://api.tumblr.com/v2/blog/myblog.tumblr.com/posts?api_key=abc123
 
 For information on the Tumblr API and/or to get your tumblr's API key, visit http://www.tumblr.com/docs/en/api/v2.
 
@@ -14,11 +23,11 @@ postsPerPage - int = fairly self explainatory.<br>
 pagination - boolean = turns on/off pagination functionality and UI for pagination.<br>
 currentPage - int = indicates which page will be displayed first.<br>
 loading - HTML as string = accepts any HTML to be displayed while the request is loading via AJAX.<br>
-previousBtn / nextBtn - string = inner HTML for next and prev buttons created for paging if pagination is enabled.
+previousBtn - string = inner HTML for previous button created for paging if pagination is enabled.<br>
+nextBtn - string = same as previousBtn.<br>
+error - HTML as string - HTML to display in the dreadful event that the tumblr API can't be accessed.
 
 More configuration options will probably be available soon.
-
-The end.
 
 ##Mark-up
 
@@ -69,5 +78,7 @@ A typical photo post will marked up as follows:
 	</div>	
 
 ------
+
+If any of the markup doesn't suit your needs, it should be quick to customize yourself in each post type case within the formatPosts function (line 79 and below).
 	
 Now that you have an idea of the mark-up, it should be relatively easy to decipher the other post types :)
