@@ -2,7 +2,7 @@
 
 ##Requires:
 
-jQuery 1.7 or later.
+jQuery 1.7 or later.<br>
 A tumblr account with an API key (http://www.tumblr.com/docs/en/api/v2).
 
 ##Usage:
